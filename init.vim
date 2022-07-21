@@ -1,7 +1,9 @@
 call plug#begin(stdpath('data') . '/plugged')
 
+" Fuzzy finding
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
 
 " NERDTree
 Plug 'scrooloose/nerdtree'
@@ -13,21 +15,18 @@ Plug 'airblade/vim-gitgutter'
 " Comments
 Plug 'tpope/vim-commentary'
 
+" Other
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neovim/nvim-lspconfig'
+
+" Language specific things below
+
 " Rust
 Plug 'rust-lang/rust.vim'
 Plug 'vim-syntastic/syntastic'
 
 " better json syntax/highlighting
 Plug 'elzr/vim-json'
-
-" Search
-Plug 'ctrlpvim/ctrlp.vim'
-
-
-" Other
-Plug 'mileszs/ack.vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'neovim/nvim-lspconfig'
 
 call plug#end()
 
@@ -45,16 +44,20 @@ autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
 " KEY MAPS
 " ----------------------------------------------------------------------------
 
-" Useful macros I use the most
+" For any plugins that use this, make their keymappings use comma
+let mapleader = ","
+let maplocalleader = ","
+
+
+" Macro stuff
 nmap \A :set formatoptions+=a<CR>:echo "autowrap enabled"<CR>
 nmap \M :set expandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
 nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
 nmap \a :set formatoptions-=a<CR>:echo "autowrap disabled"<CR>
 nmap \b :set nocin tw=80<CR>:set formatoptions+=a<CR>
-nmap \c :call TmuxPaneClear()<CR>
+" Not using tmux yet, leave this for reference
+" nmap \c :call TmuxPaneClear()<CR>
 nmap \e :NERDTreeToggle<CR>
-" nmap \f mt:Goyo<CR>'tzz
-nmap \g :Gstatus<CR>
 nmap \i vip:sort<CR>
 nmap \l :setlocal number!<CR>:setlocal number?<CR>
 nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
@@ -66,20 +69,24 @@ nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \u :setlocal list!<CR>:setlocal list?<CR>
 nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 nmap \x :cclose<CR>
-nmap \z :w<CR>:!open %<CR><CR>
+
 " Turn off linewise keys. Normally, the `j' and `k' keys move the cursor down one entire line. with
 " line wrapping on, this can cause the cursor to actually skip a few lines on the screen because
 " it's moving from line N to line N+1 in the file. I want this to act more visually -- I want `down'
 " to mean the next line on the screen
 nmap j gj
 nmap k gk
-
-" You don't know what you're missing if you don't use this.
-nmap <C-e> :e#<CR>
+" Regarding the above, I probably want to go back to old behaviour, i dunno
 
 " Move between open buffers.
+" Ctrl-alt-n is there if preferred to ctrl-p
 nmap <C-n> :bnext<CR>
+nmap <C-M-n> :bprev<CR>
 nmap <C-p> :bprev<CR>
+" Switch between 2 MRU
+nmap <C-e> :e#<CR>
+" Alt-W to delete a buffer and remove it from the list but keep the window via bufkill.vim
+nmap <M-w> :bd<CR>
 
 " Search for the word under the cursor in the current directory
 nmap <M-k>    mo:Ack! "\b<cword>\b" <CR>
@@ -94,12 +101,25 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" FZF (replaces Ctrl-P, FuzzyFinder and Command-T)
+set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
+nmap ; :Buffers<CR>
+nmap <Leader>t :Tags<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>a :Ag<CR>
+nmap <Leader>r :Rg<CR>
+
+
+
+
+" ----
+" MISC
+" ----
+
 " Fix annoyances in the QuickFix window, like scrolling too much
 autocmd FileType qf setlocal number nolist scrolloff=0
 autocmd Filetype qf wincmd J " Makes sure it's at the bottom of the vim window
 
-" Alt-W to delete a buffer and remove it from the list but keep the window via bufkill.vim
-nmap <Esc>w :bd<CR>
 
 
 " ----------------------------------------------------------------------------
@@ -146,7 +166,7 @@ set matchtime=2             " Tenths of second to hilight matching paren
 set modelines=5             " How many lines of head & tail to look for ml's
 silent! set mouse=nvc       " Use the mouse, but not in insert mode
 set nobackup                " No backups left after done editing
-set nonumber                " No line numbers to start
+set number                  " Line numbers to start
 set visualbell t_vb=        " No flashing or beeping at all
 set nowritebackup           " No backups made while editing
 set printoptions=paper:letter " US paper
@@ -171,29 +191,13 @@ set wildmenu                " Show possible completions on command line
 set wildmode=list:longest,full " List all options and complete
 set wildignore=*.class,*.o,*~,*.pyc,.git,node_modules  " Ignore certain files in tab-completion
 
-" ----------------------------------------------------------------------------
-" PLUGIN SETTINGS
-" ----------------------------------------------------------------------------
 
-" For any plugins that use this, make their keymappings use comma
-let mapleader = ","
-let maplocalleader = ","
 
-" FZF (replaces Ctrl-P, FuzzyFinder and Command-T)
-set rtp+=~/.fzf
-nmap ; :Buffers<CR>
-nmap <Leader>r :Tags<CR>
-nmap <Leader>t :Files<CR>
-nmap <Leader>a :Ag<CR>
 
 " Tell ack.vim to use ag (the Silver Searcher) instead
 let g:ackprg = 'ag --vimgrep'
 
-" Use incsearch.vim to highlight as I search
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
+" incsearch stuff removed - deprecated by neovim
 
 " ALE
 let g:ale_sign_warning = '▲'
