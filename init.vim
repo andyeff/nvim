@@ -1,0 +1,322 @@
+call plug#begin(stdpath('data') . '/plugged')
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" NERDTree
+Plug 'scrooloose/nerdtree'
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Comments
+Plug 'tpope/vim-commentary'
+
+" Rust
+Plug 'rust-lang/rust.vim'
+Plug 'vim-syntastic/syntastic'
+
+" better json syntax/highlighting
+Plug 'elzr/vim-json'
+
+" Search
+Plug 'ctrlpvim/ctrlp.vim'
+
+
+" Other
+Plug 'mileszs/ack.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neovim/nvim-lspconfig'
+
+call plug#end()
+
+
+" Import LSP lua config
+lua require('lsp')
+
+" Stop the cursor being weird / invisible when using insert mode
+set guicursor=
+
+
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+" ----------------------------------------------------------------------------
+" KEY MAPS
+" ----------------------------------------------------------------------------
+
+" Useful macros I use the most
+nmap \A :set formatoptions+=a<CR>:echo "autowrap enabled"<CR>
+nmap \M :set expandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
+nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
+nmap \a :set formatoptions-=a<CR>:echo "autowrap disabled"<CR>
+nmap \b :set nocin tw=80<CR>:set formatoptions+=a<CR>
+nmap \c :call TmuxPaneClear()<CR>
+nmap \e :NERDTreeToggle<CR>
+" nmap \f mt:Goyo<CR>'tzz
+nmap \g :Gstatus<CR>
+nmap \i vip:sort<CR>
+nmap \l :setlocal number!<CR>:setlocal number?<CR>
+nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nmap \o :set paste!<CR>:set paste?<CR>
+nmap \q :nohlsearch<CR>
+nmap \r :call TmuxPaneRepeat()<CR>
+nmap \s :setlocal invspell<CR>
+nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nmap \u :setlocal list!<CR>:setlocal list?<CR>
+nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
+nmap \x :cclose<CR>
+nmap \z :w<CR>:!open %<CR><CR>
+" Turn off linewise keys. Normally, the `j' and `k' keys move the cursor down one entire line. with
+" line wrapping on, this can cause the cursor to actually skip a few lines on the screen because
+" it's moving from line N to line N+1 in the file. I want this to act more visually -- I want `down'
+" to mean the next line on the screen
+nmap j gj
+nmap k gk
+
+" You don't know what you're missing if you don't use this.
+nmap <C-e> :e#<CR>
+
+" Move between open buffers.
+nmap <C-n> :bnext<CR>
+nmap <C-p> :bprev<CR>
+
+" Search for the word under the cursor in the current directory
+nmap <M-k>    mo:Ack! "\b<cword>\b" <CR>
+nmap <Esc>k   mo:Ack! "\b<cword>\b" <CR>
+nmap ˚        mo:Ack! "\b<cword>\b" <CR>
+nmap <M-S-k>  mo:Ggrep! "\b<cword>\b" <CR>
+nmap <Esc>K   mo:Ggrep! "\b<cword>\b" <CR>
+
+" Stuff for splits
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Fix annoyances in the QuickFix window, like scrolling too much
+autocmd FileType qf setlocal number nolist scrolloff=0
+autocmd Filetype qf wincmd J " Makes sure it's at the bottom of the vim window
+
+" Alt-W to delete a buffer and remove it from the list but keep the window via bufkill.vim
+nmap <Esc>w :bd<CR>
+
+
+" ----------------------------------------------------------------------------
+" OPTIONS
+" ----------------------------------------------------------------------------
+
+set autoindent              " Carry over indenting from previous line
+set autoread                " Don't bother me hen a file changes
+set autowrite               " Write on :next/:prev/^Z
+set backspace=indent,eol,start
+                            " Allow backspace beyond insertion point
+set cindent                 " Automatic program indenting
+set cinkeys-=0#             " Comments don't fiddle with indenting
+set cino=                   " See :h cinoptions-values
+set commentstring=\ \ #%s   " When folds are created, add them to this
+set copyindent              " Make autoindent use the same chars as prev line
+set directory-=.            " Don't store temp files in cwd
+set encoding=utf8           " UTF-8 by default
+set expandtab               " No tabs
+set fileformats=unix,dos,mac  " Prefer Unix
+set fillchars=vert:\ ,stl:\ ,stlnc:\ ,fold:-,diff:┄
+                            " Unicode chars for diffs/folds, and rely on
+                            " Colors for window borders
+silent! set foldmethod=marker " Use braces by default
+"set formatoptions=tcqn1     " t - autowrap normal text
+                            " c - autowrap comments
+                            " q - gq formats comments
+                            " n - autowrap lists
+                            " 1 - break _before_ single-letter words
+                            " 2 - use indenting from 2nd line of para
+" I didnt really like the autowrap defaults from this vimrc so I changed mine
+set formatoptions=cq
+set hidden                  " Don't prompt to save hidden windows until exit
+set history=200             " How many lines of history to save
+set hlsearch                " Hilight searching
+set ignorecase              " Case insensitive
+set incsearch               " Search as you type
+set infercase               " Completion recognizes capitalization
+set laststatus=2            " Always show the status bar
+set linebreak               " Break long lines by word, not char
+set list                    " Show whitespace as special chars - see listchars
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:· " Unicode characters for various things
+set matchtime=2             " Tenths of second to hilight matching paren
+set modelines=5             " How many lines of head & tail to look for ml's
+silent! set mouse=nvc       " Use the mouse, but not in insert mode
+set nobackup                " No backups left after done editing
+set nonumber                " No line numbers to start
+set visualbell t_vb=        " No flashing or beeping at all
+set nowritebackup           " No backups made while editing
+set printoptions=paper:letter " US paper
+set ruler                   " Show row/col and percentage
+set scroll=8                " Number of lines to scroll with ^U/^D
+set scrolloff=15            " Keep cursor away from this many chars top/bot
+set sessionoptions-=options " Don't save runtimepath in Vim session (see tpope/vim-pathogen docs)
+set shiftround              " Shift to certain columns, not just n spaces
+set shiftwidth=2            " Number of spaces to shift for autoindent or >,<
+set shortmess+=A            " Don't bother me when a swapfile exists
+set showbreak=              " Show for lines that have been wrapped, like Emacs
+set showmatch               " Hilight matching braces/parens/etc.
+set sidescrolloff=3         " Keep cursor away from this many chars left/right
+set smartcase               " Lets you search for ALL CAPS
+set softtabstop=2           " Spaces 'feel' like tabs
+set suffixes+=.pyc          " Ignore these files when tab-completing
+set tabstop=2               " The One True Tab
+set textwidth=100           " 100 is the new 80
+set thesaurus+=~/.vim/mthes10/mthesaur.txt
+set notitle                 " Don't set the title of the Vim window
+set wildmenu                " Show possible completions on command line
+set wildmode=list:longest,full " List all options and complete
+set wildignore=*.class,*.o,*~,*.pyc,.git,node_modules  " Ignore certain files in tab-completion
+
+" ----------------------------------------------------------------------------
+" PLUGIN SETTINGS
+" ----------------------------------------------------------------------------
+
+" For any plugins that use this, make their keymappings use comma
+let mapleader = ","
+let maplocalleader = ","
+
+" FZF (replaces Ctrl-P, FuzzyFinder and Command-T)
+set rtp+=~/.fzf
+nmap ; :Buffers<CR>
+nmap <Leader>r :Tags<CR>
+nmap <Leader>t :Files<CR>
+nmap <Leader>a :Ag<CR>
+
+" Tell ack.vim to use ag (the Silver Searcher) instead
+let g:ackprg = 'ag --vimgrep'
+
+" Use incsearch.vim to highlight as I search
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+
+" ALE
+let g:ale_sign_warning = '▲'
+let g:ale_sign_error = '✗'
+highlight link ALEWarningSign String
+highlight link ALEErrorSign Title
+
+" Lightline
+let g:lightline = {
+\ 'colorscheme': 'wombat',
+\ 'active': {
+\   'left': [['mode', 'paste'], ['filename', 'modified']],
+\   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
+\ },
+\ 'component_expand': {
+\   'linter_warnings': 'LightlineLinterWarnings',
+\   'linter_errors': 'LightlineLinterErrors',
+\   'linter_ok': 'LightlineLinterOK'
+\ },
+\ 'component_type': {
+\   'readonly': 'error',
+\   'linter_warnings': 'warning',
+\   'linter_errors': 'error'
+\ },
+\ }
+function! LightlineLinterWarnings() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('%d ◆', all_non_errors)
+endfunction
+function! LightlineLinterErrors() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('%d ✗', all_errors)
+endfunction
+function! LightlineLinterOK() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '✓ ' : ''
+endfunction
+
+" Update and show lightline but only if it's visible (e.g., not in Goyo)
+autocmd User ALELint call s:MaybeUpdateLightline()
+function! s:MaybeUpdateLightline()
+  if exists('#lightline')
+    call lightline#update()
+  end
+endfunction
+
+
+" Essential for filetype plugins.
+filetype plugin indent on
+syntax on
+
+" ----
+" Colours
+" ----
+set background=dark
+let g:rehash256 = 1
+colorscheme molokai
+set t_Co=256
+
+" Window splits & ruler are too bright, so change to white on grey (non-GUI)
+highlight StatusLine       cterm=NONE ctermbg=blue ctermfg=white
+highlight StatusLineTerm   cterm=NONE ctermbg=blue ctermfg=white
+highlight StatusLineNC     cterm=NONE ctermbg=black ctermfg=white
+highlight StatusLineTermNC cterm=NONE ctermbg=black ctermfg=white
+highlight VertSplit        cterm=NONE ctermbg=black ctermfg=white
+
+" taglist.vim's filenames is linked to LineNr by default, which is too dark
+highlight def link MyTagListFileName Statement
+highlight def link MyTagListTagName Question
+
+" Turn off horrible coloring for CDATA in XML
+highlight def link xmlCdata NONE
+
+" Some custom spell-checking colors
+highlight SpellBad     term=underline cterm=underline ctermbg=NONE ctermfg=205
+highlight SpellCap     term=underline cterm=underline ctermbg=NONE ctermfg=33
+highlight SpellRare    term=underline cterm=underline ctermbg=NONE ctermfg=217
+highlight SpellLocal   term=underline cterm=underline ctermbg=NONE ctermfg=72
+
+" The Ignore color should be... ignorable
+silent! highlight Ignore cterm=bold ctermfg=black ctermbg=bg
+highlight clear FoldColumn
+highlight def link FoldColumn Ignore
+highlight clear Folded
+highlight link Folded Ignore
+highlight clear LineNr
+highlight! def link LineNr Ignore
+
+" Custom search colors
+highlight clear Search
+highlight Search term=NONE cterm=NONE ctermfg=white ctermbg=black
+
+" Make hilighted matching parents less annoying
+highlight clear MatchParen
+highlight link MatchParen Search
+
+" Custom colors for NERDTree
+highlight def link NERDTreeRO NERDTreeFile
+
+" Make trailing spaces very visible
+highlight SpecialKey ctermbg=Yellow guibg=Yellow
+
+" Make menu selections visible
+highlight PmenuSel ctermfg=black ctermbg=magenta
+
+" The sign column slows down remote terminals
+highlight clear SignColumn
+highlight link SignColumn Ignore
+
+" Markdown could be more fruit salady
+highlight link markdownH1 PreProc
+highlight link markdownH2 PreProc
+highlight link markdownLink Character
+highlight link markdownBold String
+highlight link markdownItalic Statement
+highlight link markdownCode Delimiter
+highlight link markdownCodeBlock Delimiter
+highlight link markdownListMarker Todo
+
+silent! nohlsearch
