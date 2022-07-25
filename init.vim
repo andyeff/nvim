@@ -11,6 +11,8 @@ Plug 'scrooloose/nerdtree'
 " Git integration
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Comments
 Plug 'tpope/vim-commentary'
@@ -49,6 +51,8 @@ lua require('lsp')
 " Stop the cursor being weird / invisible when using insert mode
 set guicursor=
 
+" From tony
+set updatetime=250
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
@@ -187,9 +191,10 @@ set modelines=5             " How many lines of head & tail to look for ml's
 silent! set mouse=nvc       " Use the mouse, but not in insert mode
 set nobackup                " No backups left after done editing
 set number                  " Line numbers to start
-set visualbell t_vb=        " No flashing or beeping at all
 set nowritebackup           " No backups made while editing
 set printoptions=paper:letter " US paper
+" lets try to get use to relative line numbers
+set relativenumber
 set ruler                   " Show row/col and percentage
 set scroll=8                " Number of lines to scroll with ^U/^D
 set scrolloff=15            " Keep cursor away from this many chars top/bot
@@ -207,6 +212,7 @@ set tabstop=2               " The One True Tab
 set textwidth=100           " 100 is the new 80
 set thesaurus+=~/.vim/mthes10/mthesaur.txt
 set notitle                 " Don't set the title of the Vim window
+set visualbell t_vb=        " No flashing or beeping at all
 set wildmenu                " Show possible completions on command line
 set wildmode=list:longest,full " List all options and complete
 set wildignore=*.class,*.o,*~,*.pyc,.git,node_modules  " Ignore certain files in tab-completion
