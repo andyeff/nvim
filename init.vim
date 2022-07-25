@@ -31,6 +31,16 @@ Plug 'elzr/vim-json'
 " Python
 Plug 'ambv/black'
 
+" Auto complete
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
 call plug#end()
 
 " Import LSP lua config
@@ -42,6 +52,15 @@ set guicursor=
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+
+" autocomplete
+lua require('nvimcmp')
+
+
+set completeopt=menu,menuone,noselect
+
+
+
 " ----------------------------------------------------------------------------
 " KEY MAPS
 " ----------------------------------------------------------------------------
@@ -104,7 +123,7 @@ nnoremap <C-H> <C-W><C-H>
 
 " FZF (replaces Ctrl-P, FuzzyFinder and Command-T)
 set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
-nmap ; :Buffers<CR>
+nmap <Leader>b :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>f :Files<CR>
 nmap <Leader>a :Ag<CR>
@@ -192,13 +211,9 @@ set wildmenu                " Show possible completions on command line
 set wildmode=list:longest,full " List all options and complete
 set wildignore=*.class,*.o,*~,*.pyc,.git,node_modules  " Ignore certain files in tab-completion
 
-
-
-
 " Tell ack.vim to use ag (the Silver Searcher) instead
 let g:ackprg = 'ag --vimgrep'
 
-" incsearch stuff removed - deprecated by neovim
 
 " ALE
 let g:ale_sign_warning = '▲'
