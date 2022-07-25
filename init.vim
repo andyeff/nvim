@@ -28,8 +28,10 @@ Plug 'vim-syntastic/syntastic'
 " better json syntax/highlighting
 Plug 'elzr/vim-json'
 
-call plug#end()
+" Python
+Plug 'ambv/black'
 
+call plug#end()
 
 " Import LSP lua config
 lua require('lsp')
@@ -91,7 +93,6 @@ nmap <M-w> :bd<CR>
 " Search for the word under the cursor in the current directory
 nmap <M-k>    mo:Ack! "\b<cword>\b" <CR>
 nmap <Esc>k   mo:Ack! "\b<cword>\b" <CR>
-nmap ˚        mo:Ack! "\b<cword>\b" <CR>
 nmap <M-S-k>  mo:Ggrep! "\b<cword>\b" <CR>
 nmap <Esc>K   mo:Ggrep! "\b<cword>\b" <CR>
 
