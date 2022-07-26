@@ -43,6 +43,9 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
+" Color schemes
+Plug 'folke/tokyonight.nvim'
+
 call plug#end()
 
 " Import LSP lua config
@@ -282,7 +285,8 @@ syntax on
 " ----
 set background=dark
 let g:rehash256 = 1
-colorscheme molokai
+" colorscheme molokai
+colorscheme tokyonight
 set t_Co=256
 
 " Window splits & ruler are too bright, so change to white on grey (non-GUI)
