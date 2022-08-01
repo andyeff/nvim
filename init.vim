@@ -45,6 +45,7 @@ Plug 'hrsh7th/vim-vsnip'
 
 " Color schemes
 Plug 'folke/tokyonight.nvim'
+Plug 'sickill/vim-monokai'
 
 call plug#end()
 
@@ -53,6 +54,7 @@ lua require('lsp')
 
 " Stop the cursor being weird / invisible when using insert mode
 set guicursor=
+
 
 " From tony
 set updatetime=250
