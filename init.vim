@@ -61,6 +61,7 @@ set updatetime=250
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+" autocmd FileType go setlocal ts=4 sts=4 sw=4 noexpandtab
 
 " autocomplete
 lua require('nvimcmp')
@@ -80,22 +81,22 @@ let maplocalleader = ","
 
 
 " Macro stuff
-nmap \A :set formatoptions+=a<CR>:echo "autowrap enabled"<CR>
-nmap \M :set expandtab tabstop=8 softtabstop=4 shiftwidth=4<CR>
-nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
 nmap \a :set formatoptions-=a<CR>:echo "autowrap disabled"<CR>
+nmap \A :set formatoptions+=a<CR>:echo "autowrap enabled"<CR>
+nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
+nmap \M :set expandtab tabstop=8 shiftwidth=4 softtabstop=4 <CR>
+nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
+nmap \T :set expandtab tabstop=8 shiftwidth=8 softtabstop=4<CR>
 nmap \b :set nocin tw=80<CR>:set formatoptions+=a<CR>
 " Not using tmux yet, leave this for reference
 " nmap \c :call TmuxPaneClear()<CR>
 nmap \e :NERDTreeToggle<CR>
 nmap \i vip:sort<CR>
 nmap \l :setlocal number!<CR>:setlocal number?<CR>
-nmap \m :set expandtab tabstop=2 shiftwidth=2 softtabstop=2<CR>
 nmap \o :set paste!<CR>:set paste?<CR>
 nmap \q :nohlsearch<CR>
 nmap \r :call TmuxPaneRepeat()<CR>
 nmap \s :setlocal invspell<CR>
-nmap \t :set expandtab tabstop=4 shiftwidth=4 softtabstop=4<CR>
 nmap \u :setlocal list!<CR>:setlocal list?<CR>
 nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 nmap \x :cclose<CR>
