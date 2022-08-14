@@ -33,6 +33,9 @@ Plug 'elzr/vim-json'
 " Python
 Plug 'ambv/black'
 
+" Helm chart templates
+Plug 'towolf/vim-helm'
+
 " Auto complete
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
