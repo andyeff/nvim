@@ -33,6 +33,9 @@ Plug 'elzr/vim-json'
 " Python
 Plug 'ambv/black'
 
+" Go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 " Helm chart templates
 Plug 'towolf/vim-helm'
 
