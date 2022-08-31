@@ -44,10 +44,13 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
+" Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+
+" Snippets
+Plug 'rafamadriz/friendly-snippets'
 
 " Color schemes
 Plug 'folke/tokyonight.nvim'
@@ -137,6 +140,10 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" Line bubbling in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " FZF (replaces Ctrl-P, FuzzyFinder and Command-T)
 set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
 nmap <Leader>b :Buffers<CR>
@@ -145,7 +152,36 @@ nmap <Leader>f :Files<CR>
 nmap <Leader>a :Ag<CR>
 nmap <Leader>r :Rg<CR>
 
+" Go leader functions
+nmap <leader>gr :GoRun<CR>
 
+" Snippet controls
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+" Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+" See https://github.com/hrsh7th/vim-vsnip/pull/50
+nmap        s   <Plug>(vsnip-select-text)
+xmap        s   <Plug>(vsnip-select-text)
+nmap        S   <Plug>(vsnip-cut-text)
+xmap        S   <Plug>(vsnip-cut-text)
+
+" If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
+let g:vsnip_filetypes = {}
+let g:vsnip_filetypes.javascriptreact = ['javascript']
+let g:vsnip_filetypes.typescriptreact = ['typescript']
 
 
 " ----
@@ -212,15 +248,15 @@ set scroll=8                " Number of lines to scroll with ^U/^D
 set scrolloff=15            " Keep cursor away from this many chars top/bot
 set sessionoptions-=options " Don't save runtimepath in Vim session (see tpope/vim-pathogen docs)
 set shiftround              " Shift to certain columns, not just n spaces
-set shiftwidth=2            " Number of spaces to shift for autoindent or >,<
+set shiftwidth=4            " Number of spaces to shift for autoindent or >,<
 set shortmess+=A            " Don't bother me when a swapfile exists
 set showbreak=              " Show for lines that have been wrapped, like Emacs
 set showmatch               " Hilight matching braces/parens/etc.
 set sidescrolloff=3         " Keep cursor away from this many chars left/right
 set smartcase               " Lets you search for ALL CAPS
-set softtabstop=2           " Spaces 'feel' like tabs
+set softtabstop=4           " Spaces 'feel' like tabs
 set suffixes+=.pyc          " Ignore these files when tab-completing
-set tabstop=2               " The One True Tab
+set tabstop=4               " The One True Tab
 set textwidth=100           " 100 is the new 80
 set thesaurus+=~/.vim/mthes10/mthesaur.txt
 set notitle                 " Don't set the title of the Vim window
