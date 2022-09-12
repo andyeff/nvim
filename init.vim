@@ -52,6 +52,9 @@ Plug 'hrsh7th/vim-vsnip'
 " Snippets
 Plug 'rafamadriz/friendly-snippets'
 
+" undotree - show undo history
+Plug 'mbbill/undotree'
+
 " Color schemes
 Plug 'folke/tokyonight.nvim'
 Plug 'sickill/vim-monokai'
@@ -64,6 +67,7 @@ lua require('lsp')
 " Stop the cursor being weird / invisible when using insert mode
 set guicursor=
 
+" This is an edit
 
 " From tony
 set updatetime=250
@@ -89,6 +93,9 @@ let mapleader = ","
 let maplocalleader = ","
 
 
+
+" putting a comment here
+"
 " Macro stuff
 nmap \a :set formatoptions-=a<CR>:echo "autowrap disabled"<CR>
 nmap \A :set formatoptions+=a<CR>:echo "autowrap enabled"<CR>
@@ -128,6 +135,12 @@ nmap <C-e> :e#<CR>
 " Alt-W to delete a buffer and remove it from the list but keep the window via bufkill.vim
 nmap <M-w> :bd<CR>
 
+" set ctrl-d / ctrl-u to also centre on screen
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap <C-f> <C-f>zz
+nnoremap <C-b> <C-b>zz
+
 " Search for the word under the cursor in the current directory
 nmap <M-k>    mo:Ack! "\b<cword>\b" <CR>
 nmap <Esc>k   mo:Ack! "\b<cword>\b" <CR>
@@ -151,6 +164,7 @@ nmap <Leader>t :Tags<CR>
 nmap <Leader>f :Files<CR>
 nmap <Leader>a :Ag<CR>
 nmap <Leader>r :Rg<CR>
+nmap <Leader>u :UndotreeShow<CR>
 
 " Go leader functions
 nmap <leader>gr :GoRun<CR>
@@ -260,6 +274,8 @@ set tabstop=4               " The One True Tab
 set textwidth=100           " 100 is the new 80
 set thesaurus+=~/.vim/mthes10/mthesaur.txt
 set notitle                 " Don't set the title of the Vim window
+set undodir=$HOME/.vim/undo
+set undofile
 set visualbell t_vb=        " No flashing or beeping at all
 set wildmenu                " Show possible completions on command line
 set wildmode=list:longest,full " List all options and complete
