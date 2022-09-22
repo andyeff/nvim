@@ -41,11 +41,11 @@ Plug 'towolf/vim-helm'
 
 " Auto complete
 Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 " Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
@@ -170,7 +170,6 @@ nmap <Leader>u :UndotreeShow<CR>
 nmap <leader>gr :GoRun<CR>
 
 " Snippet controls
-
 " Expand
 imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
