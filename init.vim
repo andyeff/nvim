@@ -52,6 +52,9 @@ Plug 'hrsh7th/vim-vsnip'
 " Snippets
 Plug 'rafamadriz/friendly-snippets'
 
+" pictograms for lsp
+Plug 'onsails/lspkind-nvim'
+
 " undotree - show undo history
 Plug 'mbbill/undotree'
 
@@ -127,13 +130,13 @@ nmap k gk
 
 " Move between open buffers.
 " Ctrl-alt-n is there if preferred to ctrl-p
-nmap <C-n> :bnext<CR>
-nmap <C-M-n> :bprev<CR>
-nmap <C-p> :bprev<CR>
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-M-n> :bprev<CR>
+nnoremap <C-p> :bprev<CR>
 " Switch between 2 MRU
-nmap <C-e> :e#<CR>
+nnoremap <C-e> :e#<CR>
 " Alt-W to delete a buffer and remove it from the list but keep the window via bufkill.vim
-nmap <M-w> :bd<CR>
+nnoremap <M-w> :bd<CR>
 
 " set ctrl-d / ctrl-u to also centre on screen
 nnoremap <C-d> <C-d>zz
@@ -196,6 +199,8 @@ let g:vsnip_filetypes = {}
 let g:vsnip_filetypes.javascriptreact = ['javascript']
 let g:vsnip_filetypes.typescriptreact = ['typescript']
 
+" Reload vim config
+command! Reload :source $MYVIMRC
 
 " ----
 " MISC
