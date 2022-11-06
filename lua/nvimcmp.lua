@@ -24,7 +24,8 @@ cmp.setup {
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     -- ['<C-y>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    -- ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
   },
 
   sources = cmp.config.sources {
@@ -110,6 +111,7 @@ local function config(_config)
 	return vim.tbl_deep_extend("force", {
 		capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
 		on_attach = function()
+			nnoremap("gD", function() vim.lsp.buf.declaration() end)
 			nnoremap("gd", function() vim.lsp.buf.definition() end)
 			nnoremap("K", function() vim.lsp.buf.hover() end)
 			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
