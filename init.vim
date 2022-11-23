@@ -172,6 +172,14 @@ nmap <Leader>u :UndotreeShow<CR>
 " Go leader functions
 nmap <leader>gr :GoRun<CR>
 
+" Leaders from other files
+" vws - workspace symbol
+" vd - diagnostic.open_float
+" q - diagnostic setloclist
+" vca
+" vcr
+" vrn
+
 " Snippet controls
 " Expand
 imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
