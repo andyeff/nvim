@@ -1,10 +1,6 @@
 # nvim
 
-WIP nvim config
-
-Clone into ~/.config
-
-Will create the nvim directory
+Trying to make a better config ..
 
 ## Prerequisites
 
