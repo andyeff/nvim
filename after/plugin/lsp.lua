@@ -53,14 +53,20 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
+local rust_lsp = lsp.build_options('rust_analyzer', {})
+
 lsp.setup()
 
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  update_in_insert = false,
-  underline = true,
-  severity_sort = false,
-  float = true,
-})
+require('rust-tools').setup({server = rust_lsp})
+
+-- Enable the below for floating diagnostics
+-- otherwise, errors will be underlined - use [d, ]d, or <leader>vd to trace
+-- vim.diagnostic.config({
+--   virtual_text = true,
+--   signs = true,
+--   update_in_insert = false,
+--   underline = true,
+--   severity_sort = false,
+--   float = true,
+-- })
 
