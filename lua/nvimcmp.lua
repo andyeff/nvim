@@ -149,15 +149,25 @@ require("lspconfig").gopls.setup(config({
 
 require("lspconfig").rust_analyzer.setup(config({
   cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-  --[[
     settings = {
         rust = {
             unstable_features = true,
             build_on_save = false,
             all_features = true,
+            inlay_hints = {
+                auto = true,
+                only_current_line = false,
+                show_parameter_hints = true,
+                parameter_hints_prefix = "<- ",
+                other_hints_prefix = "=> ",
+                max_len_align = false,
+                max_len_align_padding = 1,
+                right_align = false,
+                right_align_padding = 7,
+                highlight = "Comment",
+            },
         },
     }
-    --]]
 }))
 
 
