@@ -41,8 +41,16 @@ lsp.setup_nvim_cmp({
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
-    -- "gi" is default mapped to goto implementation it seems
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    -- default keybinds from LSP:
+    -- gd - definition
+    -- go - type definition
+    -- gi - implementation
+    -- gr - references
+    -- gD - declaration
+    -- gl - open floating
+    -- F2 - rename
+    -- F4 - code actions
+    vim.keymap.set("n", "gt", function() vim.lsp.buf.type_definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
