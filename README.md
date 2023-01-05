@@ -24,3 +24,7 @@ A list of supported languages can be found on [Github](https://github.com/nvim-t
 Mason is the LSP handler of choice, it will prompt to install things if you don't already have them, so you can pre-populate in the lsp.lua 
 
 It *may* take 1-2 runs of launching nvim, running :PackerSync, and maybe some :TSInstall / :TSUpdate fun and games before it's happy.
+
+Note:
+
+Replacing an nvim config may need ~/.local/share/nvim to be removed or renamed temporarily. I haven't tested installing over a different config. Might not even conflict at all.
