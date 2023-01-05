@@ -1,5 +1,7 @@
 # nvim
 
+! DEPRECATED OLD BRANCH - main should now be up to date with a more 100% lua config !
+
 WIP nvim config
 
 Clone into ~/.config
